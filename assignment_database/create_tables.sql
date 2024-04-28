@@ -1,3 +1,13 @@
+-- Remove tables if they exists to recreate them:w
+set foreign_key_checks = 0;
+drop table if exists department;
+drop table if exists dependent;
+drop table if exists dept_locations;
+drop table if exists employee;
+drop table if exists project;
+drop table if exists works_on;
+set foreign_key_checks=1;
+
 -- Create tables with no foreign key constraints first.
 create table dept_locations 
 (
@@ -34,7 +44,7 @@ create table works_on
 (
     essn varchar(9) not null,
     pno smallint not null,
-    hours decimal(2, 1), 
+    hours decimal(3, 1), 
     primary key (essn, pno)
 );
 
