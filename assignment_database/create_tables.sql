@@ -34,7 +34,7 @@ create table employee
     bdate date, 
     address varchar(50),
     sex enum('M', 'F'),
-    salary decimal (6, 2), 
+    salary int, 
     superssn varchar(9),
     dno smallint,
     primary key (ssn)
