@@ -1,3 +1,5 @@
+-- TODO: Complete this
+
 -- For each deparment, retreive the department names, and total 
 -- salary of employees working in that department
 
