@@ -712,10 +712,10 @@ public class DBGui extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
 
-//            stmt.setString(1, attorneyID);
-
+            stmt.executeQuery("set foreign_key_checks = off");
             int rows = stmt.executeUpdate();
             System.out.println(rows + " row(s) affected.");
+            stmt.executeQuery("set foreign_key_checks = on");
 
             // close statement and connection 
             stmt.close();
