@@ -128,7 +128,7 @@ public class DBGui extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jButton4)
-                .addGap(0, 58, Short.MAX_VALUE))
+                .addGap(0, 87, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Client Information"));
@@ -141,7 +141,7 @@ public class DBGui extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 81, Short.MAX_VALUE)
+            .addGap(0, 110, Short.MAX_VALUE)
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Billing"));
@@ -154,7 +154,7 @@ public class DBGui extends javax.swing.JFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 81, Short.MAX_VALUE)
+            .addGap(0, 110, Short.MAX_VALUE)
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Personnel"));
@@ -211,15 +211,13 @@ public class DBGui extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6))
+                        .addComponent(jButton7))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton7))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton8)))
+                        .addComponent(jButton8))
+                    .addComponent(jButton5)
+                    .addComponent(jButton6))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
 
@@ -230,15 +228,15 @@ public class DBGui extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jButton6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
                     .addComponent(jButton7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
+                    .addComponent(jButton1)
                     .addComponent(jButton8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton6)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -576,7 +574,7 @@ public class DBGui extends javax.swing.JFrame {
         final String id = "root";
         final String pw = "password";
         final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
-        String name = JOptionPane.showInputDialog(null, "Enter attorney last name:");
+        String name = JOptionPane.showInputDialog(null, "Enter attorney specialization:");
         String query = "select * from attorney where specialization like '%" + name + "%'";
 
         try {
@@ -641,7 +639,7 @@ public class DBGui extends javax.swing.JFrame {
             "Address:", f6,
             "Office number:", f7,};
 
-        JOptionPane.showMessageDialog(null, data);
+        JOptionPane.showMessageDialog(null, data, "New Attorney", JOptionPane.INFORMATION_MESSAGE);
 
         final String id = "root";
         final String pw = "password";
