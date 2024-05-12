@@ -21,48 +21,21 @@ import javax.swing.JOptionPane;
 
 public class DBGui extends javax.swing.JFrame {
 
+    // global
+    public static String attorneyID;
+    public static String fname;
+    public static String minit;
+    public static String lname;
+    public static String specialization;
+    public static String phone;
+    public static String address;
+    public static String officeNum;
+
     /**
      * Creates new form DBGui
      */
     public DBGui() {
         initComponents();
-
-        // check for something?
-//        try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//        } catch (ClassNotFoundException e) {
-//            System.out.println(e);
-//        }
-//
-//        // set up db parameters 
-//        final String id = "root";
-//        final String pw = "password";
-//        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=roo";
-//        String queries;
-//
-//        try {
-//            // connect to MySQL server
-//            Connection con = DriverManager.getConnection(server, id, pw);
-//            Statement stmt = con.createStatement();
-//
-//            // try out a prepared statement 
-//            PreparedStatement getTables = con.prepareStatement("show tables");
-//
-//            // connect to the correct schema 
-//            stmt.executeQuery("use law_firm");
-//
-//            // let's see the tables
-//            //ResultSet rs = stmt.executeQuery("show tables");
-//            ResultSet rs = getTables.executeQuery();
-//
-//            // iterate over result set to see
-//            while (rs.next()) {
-//                String table = rs.getString("Tables_in_law_firm");
-//                jTextArea1.append(table+"\n");
-//            }
-//        } catch (SQLException e) {
-//            System.err.println(e);
-//        }
     }
 
     /**
@@ -84,6 +57,8 @@ public class DBGui extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -149,7 +124,7 @@ public class DBGui extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jButton4)
-                .addGap(0, 41, Short.MAX_VALUE))
+                .addGap(0, 58, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Client Information"));
@@ -162,7 +137,7 @@ public class DBGui extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 64, Short.MAX_VALUE)
+            .addGap(0, 81, Short.MAX_VALUE)
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Billing"));
@@ -175,7 +150,7 @@ public class DBGui extends javax.swing.JFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 64, Short.MAX_VALUE)
+            .addGap(0, 81, Short.MAX_VALUE)
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Personnel"));
@@ -187,21 +162,47 @@ public class DBGui extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("By ID");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("By First Name");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton2)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
+                    .addComponent(jButton1)
+                    .addComponent(jButton5))
                 .addContainerGap(144, Short.MAX_VALUE))
         );
+
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2, jButton5});
+
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jButton2)
-                .addGap(0, 41, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton5)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jButton2, jButton5});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -244,11 +245,10 @@ public class DBGui extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // Get attorney data
+        // Get all attorney data
         final String id = "root";
         final String pw = "password";
         final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
-        String queries;
         try {
             // connect to MySQL server
             Connection con = DriverManager.getConnection(server, id, pw);
@@ -279,18 +279,17 @@ public class DBGui extends javax.swing.JFrame {
             }
             model.setColumnIdentifiers(colName);
 
-            String attorneyId, fname, minit, lname, spec, phone, address, office;
             // iterate over result set to see resutls
             while (rs.next()) {
-                attorneyId = rs.getString(1);
+                attorneyID = rs.getString(1);
                 fname = rs.getString(2);
                 minit = rs.getString(3);
                 lname = rs.getString(4);
-                spec = rs.getString(5);
+                specialization = rs.getString(5);
                 phone = rs.getString(6);
                 address = rs.getString(7);
-                office = rs.getString(8);
-                String[] row = {attorneyId, fname, minit, lname, spec, phone, address, office};
+                officeNum = rs.getString(8);
+                String[] row = {attorneyID, fname, minit, lname, specialization, phone, address, officeNum};
                 model.addRow(row);
             }
 
@@ -315,7 +314,7 @@ public class DBGui extends javax.swing.JFrame {
         final String pw = "password";
         final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
         // get a popup to get user input?...
-        String attorneyID = JOptionPane.showInputDialog(null, "Enter attorney id:");
+        attorneyID = JOptionPane.showInputDialog(null, "Enter attorney id:");
         String query = "select case_id, attorney, case_status, date_filed, case_type\n"
                 + "from client_case c\n"
                 + "where c.attorney = ?;";
@@ -367,9 +366,119 @@ public class DBGui extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.err.println(e);
         }
-
-        // Perform the query using the attorneyID as the parameter
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Get attorney by id
+
+        // Do the connection thing as usual 
+        final String id = "root";
+        final String pw = "password";
+        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
+        attorneyID = JOptionPane.showInputDialog(null, "Enter attorney id:");
+        String query = "select * from attorney where attorney_id = ?";
+
+        try {
+            // connect to MySQL server
+            Connection con = DriverManager.getConnection(server, id, pw);
+
+            // try out a prepared statement
+            PreparedStatement stmt = con.prepareStatement(query);
+
+            // connect to the correct schema
+            stmt.executeQuery("use law_firm");
+
+            // fill in parameters 
+            stmt.setString(1, attorneyID);
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // get column count and names 
+            int cols = rsmd.getColumnCount();
+            String[] colName = new String[cols];
+
+            // iterate over array and get column info and set it in the table
+            for (int i = 0; i < cols; i++) {
+                colName[i] = rsmd.getColumnName(i + 1);
+            }
+            model.setColumnIdentifiers(colName);
+
+            // iterate over result set to see resutls
+            while (rs.next()) {
+                attorneyID = rs.getString(1);
+                fname = rs.getString(2);
+                minit = rs.getString(3);
+                lname = rs.getString(4);
+                specialization = rs.getString(5);
+                phone = rs.getString(6);
+                address = rs.getString(7);
+                officeNum = rs.getString(8);
+                String[] row = {attorneyID, fname, minit, lname, specialization, phone, address, officeNum};
+                model.addRow(row);
+            }
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // Get attorney by first name
+        final String id = "root";
+        final String pw = "password";
+        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
+        String name = JOptionPane.showInputDialog(null, "Enter attorney first name:");
+        String query = "select * from attorney where fname like '%" + name + "%'";
+
+        try {
+            Connection con = DriverManager.getConnection(server, id, pw);
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.executeQuery("use law_firm");
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // get column count and names 
+            int cols = rsmd.getColumnCount();
+            String[] colName = new String[cols];
+
+            // iterate over array and get column info and set it in the table
+            for (int i = 0; i < cols; i++) {
+                colName[i] = rsmd.getColumnName(i + 1);
+            }
+            model.setColumnIdentifiers(colName);
+
+            // iterate over result set to see resutls
+            while (rs.next()) {
+                attorneyID = rs.getString(1);
+                fname = rs.getString(2);
+                minit = rs.getString(3);
+                lname = rs.getString(4);
+                specialization = rs.getString(5);
+                phone = rs.getString(6);
+                address = rs.getString(7);
+                officeNum = rs.getString(8);
+                String[] row = {attorneyID, fname, minit, lname, specialization, phone, address, officeNum};
+                model.addRow(row);
+            }
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -407,9 +516,11 @@ public class DBGui extends javax.swing.JFrame {
     } // END MAIN
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
