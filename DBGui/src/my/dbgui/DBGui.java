@@ -1052,6 +1052,59 @@ public class DBGui extends javax.swing.JFrame {
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         // Update Client
+        // Add an attorney
+        JTextField f1 = new JTextField();
+        JTextField f2 = new JTextField();
+        JTextField f3 = new JTextField();
+        JTextField f4 = new JTextField();
+        JTextField f5 = new JTextField();
+        JTextField f6 = new JTextField();
+
+        Object[] data = {
+            "Client Id:", f1,
+            "Client name:", f2,
+            "Phone:", f3,
+            "Client Type:", f4,
+            "Address:", f5,
+            "Attorney ID:", f6,};
+
+        JOptionPane.showMessageDialog(null, data, "Update Client", JOptionPane.INFORMATION_MESSAGE);
+
+        final String id = "root";
+        final String pw = "password";
+        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
+        String query = "update client \n"
+                + "set client_name = ?, phone = ?, client_type = ?, address = ?, attorney = ?\n"
+                + "where client_id = ?;";
+
+        try {
+            Connection con = DriverManager.getConnection(server, id, pw);
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("set sql_safe_updates = 0");
+
+            stmt.setString(1, f2.getText());
+            stmt.setString(2, f3.getText());
+            stmt.setString(3, f4.getText());
+            stmt.setString(4, f5.getText());
+            stmt.setString(5, f6.getText());
+            stmt.setString(6, f1.getText());
+            int rows = stmt.executeUpdate();
+
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // iterate over result set to see resutls
+            System.out.println(rows + " row(s) affected.");
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
