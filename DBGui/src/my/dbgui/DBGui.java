@@ -18,6 +18,7 @@ import java.time.Clock;
 import java.time.ZoneId;
 import javax.swing.table.*;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class DBGui extends javax.swing.JFrame {
 
@@ -61,6 +62,7 @@ public class DBGui extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -192,6 +194,13 @@ public class DBGui extends javax.swing.JFrame {
             }
         });
 
+        jButton8.setText("Add Attorney");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -207,11 +216,14 @@ public class DBGui extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton7))
-                    .addComponent(jButton5))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton8)))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
 
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2, jButton5, jButton6, jButton7});
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2, jButton5, jButton6, jButton7, jButton8});
 
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,11 +236,13 @@ public class DBGui extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton5)
+                    .addComponent(jButton8))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jButton2, jButton5, jButton6, jButton7});
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jButton2, jButton5, jButton6, jButton7, jButton8});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -608,6 +622,67 @@ public class DBGui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // Add an attorney
+        JTextField f1 = new JTextField();
+        JTextField f2 = new JTextField();
+        JTextField f3 = new JTextField();
+        JTextField f4 = new JTextField();
+        JTextField f5 = new JTextField();
+        JTextField f6 = new JTextField();
+        JTextField f7 = new JTextField();
+
+        Object[] data = {
+            "First name:", f1,
+            "Middle init:", f2,
+            "Last name:", f3,
+            "Specialization:", f4,
+            "Phone:", f5,
+            "Address:", f6,
+            "Office number:", f7,};
+
+        JOptionPane.showMessageDialog(null, data);
+
+        final String id = "root";
+        final String pw = "password";
+        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
+        String query = "insert into  attorney (fname, minit, lname, specialization, attorney_phone, address, office_number)\n"
+                + "values \n"
+                + "    (?,?,?,?,?,?,?)";
+
+        try {
+            Connection con = DriverManager.getConnection(server, id, pw);
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.executeQuery("use law_firm");
+
+            // fill in parameters 
+            // fill in those values
+            stmt.setString(1, f1.getText());
+            stmt.setString(2, f2.getText());
+            stmt.setString(3, f3.getText());
+            stmt.setString(4, f4.getText());
+            stmt.setString(5, f5.getText());
+            stmt.setString(6, f6.getText());
+            stmt.setString(7, f7.getText());
+            int rows = stmt.executeUpdate();
+
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+            
+            // iterate over result set to see resutls
+            System.out.println(rows + "row affected.");
+            
+            // close statement and connection 
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+
+
+    }//GEN-LAST:event_jButton8ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -651,6 +726,7 @@ public class DBGui extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
