@@ -207,6 +207,11 @@ public class DBGui extends javax.swing.JFrame {
         jButton16.setBackground(new java.awt.Color(255, 0, 0));
         jButton16.setForeground(new java.awt.Color(255, 255, 255));
         jButton16.setText("Remove Client");
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -1099,6 +1104,36 @@ public class DBGui extends javax.swing.JFrame {
             System.err.println(e);
         }
     }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        // Remove a client 
+        clientID = JOptionPane.showInputDialog(null, "Enter client id:");
+        final String id = "root";
+        final String pw = "password";
+        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
+        String query = "delete from client where client_id =" + clientID;
+
+        try {
+            Connection con = DriverManager.getConnection(server, id, pw);
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.executeQuery("use law_firm");
+
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            stmt.executeQuery("set foreign_key_checks = off");
+            int rows = stmt.executeUpdate();
+            System.out.println(rows + " row(s) affected.");
+            stmt.executeQuery("set foreign_key_checks = on");
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_jButton16ActionPerformed
 
     /**
      * @param args the command line arguments
