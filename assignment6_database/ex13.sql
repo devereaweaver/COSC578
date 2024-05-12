@@ -4,11 +4,11 @@
 
 set sql_safe_updates = 0;
 update s
-set s.city = (
-	select s.city 
+set city = (
+	select city 
  	from s
-	where s.s_name = 'Adams'
+	where s_name = 'Adams'
 )
-where s.s_name = 'Smith';
+where s_name = 'Smith';
 
 select * from s;

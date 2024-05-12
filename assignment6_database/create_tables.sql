@@ -1,4 +1,4 @@
--- Remove tables if they exists to recreate them:w
+-- Remove tables if they exists to recreate them
 set foreign_key_checks = 0;
 drop table if exists j;
 drop table if exists p;

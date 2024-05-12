@@ -8,4 +8,4 @@ group by spj.s_num;
 
 select * from supplier_shipment;
 
-drop view supplier_shipment;
+drop table supplier_shipment;
