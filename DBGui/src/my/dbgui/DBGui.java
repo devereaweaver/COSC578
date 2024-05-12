@@ -59,6 +59,8 @@ public class DBGui extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -118,7 +120,7 @@ public class DBGui extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton4)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(172, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,7 +135,7 @@ public class DBGui extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGap(0, 332, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,7 +148,7 @@ public class DBGui extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGap(0, 332, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,6 +178,20 @@ public class DBGui extends javax.swing.JFrame {
             }
         });
 
+        jButton6.setText("By Last Name");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setText("By Specialization");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -183,26 +199,36 @@ public class DBGui extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton6))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton7))
                     .addComponent(jButton5))
-                .addContainerGap(144, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2, jButton5});
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2, jButton5, jButton6, jButton7});
 
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jButton2)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton5)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jButton2, jButton5});
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jButton2, jButton5, jButton6, jButton7});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -480,6 +506,108 @@ public class DBGui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // Get attorney by last name
+        final String id = "root";
+        final String pw = "password";
+        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
+        String name = JOptionPane.showInputDialog(null, "Enter attorney last name:");
+        String query = "select * from attorney where lname like '%" + name + "%'";
+
+        try {
+            Connection con = DriverManager.getConnection(server, id, pw);
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.executeQuery("use law_firm");
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // get column count and names 
+            int cols = rsmd.getColumnCount();
+            String[] colName = new String[cols];
+
+            // iterate over array and get column info and set it in the table
+            for (int i = 0; i < cols; i++) {
+                colName[i] = rsmd.getColumnName(i + 1);
+            }
+            model.setColumnIdentifiers(colName);
+
+            // iterate over result set to see resutls
+            while (rs.next()) {
+                attorneyID = rs.getString(1);
+                fname = rs.getString(2);
+                minit = rs.getString(3);
+                lname = rs.getString(4);
+                specialization = rs.getString(5);
+                phone = rs.getString(6);
+                address = rs.getString(7);
+                officeNum = rs.getString(8);
+                String[] row = {attorneyID, fname, minit, lname, specialization, phone, address, officeNum};
+                model.addRow(row);
+            }
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // Get attorney by specialization
+        final String id = "root";
+        final String pw = "password";
+        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
+        String name = JOptionPane.showInputDialog(null, "Enter attorney last name:");
+        String query = "select * from attorney where specialization like '%" + name + "%'";
+
+        try {
+            Connection con = DriverManager.getConnection(server, id, pw);
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.executeQuery("use law_firm");
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // get column count and names 
+            int cols = rsmd.getColumnCount();
+            String[] colName = new String[cols];
+
+            // iterate over array and get column info and set it in the table
+            for (int i = 0; i < cols; i++) {
+                colName[i] = rsmd.getColumnName(i + 1);
+            }
+            model.setColumnIdentifiers(colName);
+
+            // iterate over result set to see resutls
+            while (rs.next()) {
+                attorneyID = rs.getString(1);
+                fname = rs.getString(2);
+                minit = rs.getString(3);
+                lname = rs.getString(4);
+                specialization = rs.getString(5);
+                phone = rs.getString(6);
+                address = rs.getString(7);
+                officeNum = rs.getString(8);
+                String[] row = {attorneyID, fname, minit, lname, specialization, phone, address, officeNum};
+                model.addRow(row);
+            }
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -521,12 +649,13 @@ public class DBGui extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
