@@ -34,6 +34,10 @@ public class DBGui extends javax.swing.JFrame {
     public static String clientID;
     public static String clientName;
     public static String clientType;
+    public static String caseID;
+    public static String caseStatus;
+    public static String caseType;
+    public static String dateFiled;
 
     /**
      * Creates new form DBGui
@@ -186,9 +190,19 @@ public class DBGui extends javax.swing.JFrame {
         });
 
         jButton14.setText("Update Client");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
 
         jButton15.setBackground(new java.awt.Color(102, 255, 51));
         jButton15.setText("Add Client");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
 
         jButton16.setBackground(new java.awt.Color(255, 0, 0));
         jButton16.setForeground(new java.awt.Color(255, 255, 255));
@@ -808,7 +822,62 @@ public class DBGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
+        // Get client cases
+        final String id = "root";
+        final String pw = "password";
+        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
+        clientID = JOptionPane.showInputDialog(null, "Enter client id:");
+        String query = "select c.client_name, cc.case_id, cc.case_status, cc.case_type, cc.date_filed\n"
+                + "from client c, client_case cc\n"
+                + "where c.attorney = cc.attorney\n"
+                + "and c.client_id = ?";
+
+        try {
+            // connect to MySQL server
+            Connection con = DriverManager.getConnection(server, id, pw);
+
+            // try out a prepared statement
+            PreparedStatement stmt = con.prepareStatement(query);
+
+            // connect to the correct schema
+            stmt.executeQuery("use law_firm");
+
+            // fill in parameters 
+            stmt.setString(1, clientID);
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // get column count and names 
+            int cols = rsmd.getColumnCount();
+            String[] colName = new String[cols];
+
+            // iterate over array and get column info and set it in the table
+            for (int i = 0; i < cols; i++) {
+                colName[i] = rsmd.getColumnName(i + 1);
+            }
+            model.setColumnIdentifiers(colName);
+
+            // iterate over result set to see resutls
+            while (rs.next()) {
+                clientName = rs.getString(1);
+                caseID = rs.getString(2);
+                caseStatus = rs.getString(3);
+                caseType = rs.getString(4);
+                dateFiled = rs.getString(5);
+                String[] row = {clientName, caseID, caseStatus, caseType, dateFiled};
+                model.addRow(row);
+            }
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
@@ -871,7 +940,7 @@ public class DBGui extends javax.swing.JFrame {
         final String id = "root";
         final String pw = "password";
         final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
-        String name = JOptionPane.showInputDialog(null, "Enter attorney first name:");
+        String name = JOptionPane.showInputDialog(null, "Enter client name:");
         String query = "select * from client where client_name like '%" + name + "%'";
 
         try {
@@ -956,7 +1025,7 @@ public class DBGui extends javax.swing.JFrame {
             model.setColumnIdentifiers(colName);
 
             // iterate over result set to see resutls
-             // iterate over result set to see resutls
+            // iterate over result set to see resutls
             while (rs.next()) {
                 clientID = rs.getString(1);
                 clientName = rs.getString(2);
@@ -968,7 +1037,6 @@ public class DBGui extends javax.swing.JFrame {
                 model.addRow(row);
             }
 
-
             // close statement and connection 
             stmt.close();
             con.close();
@@ -976,6 +1044,61 @@ public class DBGui extends javax.swing.JFrame {
             System.err.println(e);
         }
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        // Update Client
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        // Add an attorney
+        JTextField f1 = new JTextField();
+        JTextField f2 = new JTextField();
+        JTextField f3 = new JTextField();
+        JTextField f4 = new JTextField();
+        JTextField f5 = new JTextField();
+
+        Object[] data = {
+            "Client name:", f1,
+            "Phone:", f2,
+            "Client Type:", f3,
+            "Address:", f4,
+            "Attorney ID:", f5,};
+
+        JOptionPane.showMessageDialog(null, data, "New Client", JOptionPane.INFORMATION_MESSAGE);
+
+        final String id = "root";
+        final String pw = "password";
+        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
+        String query = "insert into client (client_name, phone, client_type, address, attorney) \n"
+                + "values \n"
+                + "	(?, ?, ?, ?, ?);";
+
+        try {
+            Connection con = DriverManager.getConnection(server, id, pw);
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.executeQuery("use law_firm");
+
+            stmt.setString(1, f1.getText());
+            stmt.setString(2, f2.getText());
+            stmt.setString(3, f3.getText());
+            stmt.setString(4, f4.getText());
+            stmt.setString(5, f5.getText());
+            int rows = stmt.executeUpdate();
+
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // iterate over result set to see resutls
+            System.out.println(rows + " row(s) affected.");
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_jButton15ActionPerformed
 
     /**
      * @param args the command line arguments
