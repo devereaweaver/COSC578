@@ -31,6 +31,9 @@ public class DBGui extends javax.swing.JFrame {
     public static String phone;
     public static String address;
     public static String officeNum;
+    public static String clientID;
+    public static String clientName;
+    public static String clientType;
 
     /**
      * Creates new form DBGui
@@ -56,6 +59,13 @@ public class DBGui extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
+        jButton14 = new javax.swing.JButton();
+        jButton15 = new javax.swing.JButton();
+        jButton16 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -123,13 +133,13 @@ public class DBGui extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton4)
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addContainerGap(238, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jButton4)
-                .addGap(0, 87, Short.MAX_VALUE))
+                .addGap(0, 93, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Client Information"));
@@ -138,25 +148,97 @@ public class DBGui extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 332, Short.MAX_VALUE)
+            .addGap(0, 398, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 110, Short.MAX_VALUE)
+            .addGap(0, 116, Short.MAX_VALUE)
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Billing"));
+
+        jButton10.setText("All Client data");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jButton11.setText("By Attorney");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
+        jButton12.setText("Client Cases");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        jButton13.setText("By Name");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+
+        jButton14.setText("Update Client");
+
+        jButton15.setBackground(new java.awt.Color(102, 255, 51));
+        jButton15.setText("Add Client");
+
+        jButton16.setBackground(new java.awt.Color(255, 0, 0));
+        jButton16.setForeground(new java.awt.Color(255, 255, 255));
+        jButton16.setText("Remove Client");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 332, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jButton11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton16))
+                    .addComponent(jButton12)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jButton13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton15))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jButton10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton14)))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
+
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton10, jButton11, jButton12, jButton13, jButton14, jButton15, jButton16});
+
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 110, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton10)
+                    .addComponent(jButton14))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton15)
+                    .addComponent(jButton13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton11)
+                    .addComponent(jButton16))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton12)
+                .addContainerGap())
         );
+
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton10, jButton11, jButton12, jButton13, jButton14, jButton15, jButton16});
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Personnel"));
 
@@ -232,7 +314,7 @@ public class DBGui extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton9))
                     .addComponent(jButton6))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
         jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2, jButton5, jButton6, jButton7, jButton8, jButton9});
@@ -253,7 +335,7 @@ public class DBGui extends javax.swing.JFrame {
                     .addComponent(jButton9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton6)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jButton2, jButton5, jButton6, jButton7, jButton8, jButton9});
@@ -701,7 +783,7 @@ public class DBGui extends javax.swing.JFrame {
         final String id = "root";
         final String pw = "password";
         final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
-        String query = "delete from attorney where attorney_id="+ attorneyID;
+        String query = "delete from attorney where attorney_id=" + attorneyID;
 
         try {
             Connection con = DriverManager.getConnection(server, id, pw);
@@ -724,6 +806,176 @@ public class DBGui extends javax.swing.JFrame {
             System.err.println(e);
         }
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // Get all client data
+        final String id = "root";
+        final String pw = "password";
+        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
+        try {
+            // connect to MySQL server
+            Connection con = DriverManager.getConnection(server, id, pw);
+            Statement stmt = con.createStatement();
+
+            // try out a prepared statement
+            PreparedStatement getTables = con.prepareStatement("select * from client");
+
+            // connect to the correct schema
+            stmt.executeQuery("use law_firm");
+
+            // let's see the tables
+            //ResultSet rs = stmt.executeQuery("show tables");
+            ResultSet rs = getTables.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // get column count and names 
+            int cols = rsmd.getColumnCount();
+            String[] colName = new String[cols];
+
+            // iterate over array and get column info and set it in the table
+            for (int i = 0; i < cols; i++) {
+                colName[i] = rsmd.getColumnName(i + 1);
+            }
+            model.setColumnIdentifiers(colName);
+
+            // iterate over result set to see resutls
+            while (rs.next()) {
+                clientID = rs.getString(1);
+                clientName = rs.getString(2);
+                phone = rs.getString(3);
+                clientType = rs.getString(4);
+                address = rs.getString(5);
+                attorneyID = rs.getString(6);
+                String[] row = {clientID, clientName, phone, clientType, address, attorneyID};
+                model.addRow(row);
+            }
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // Get client by name
+        final String id = "root";
+        final String pw = "password";
+        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
+        String name = JOptionPane.showInputDialog(null, "Enter attorney first name:");
+        String query = "select * from client where client_name like '%" + name + "%'";
+
+        try {
+            Connection con = DriverManager.getConnection(server, id, pw);
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.executeQuery("use law_firm");
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // get column count and names 
+            int cols = rsmd.getColumnCount();
+            String[] colName = new String[cols];
+
+            // iterate over array and get column info and set it in the table
+            for (int i = 0; i < cols; i++) {
+                colName[i] = rsmd.getColumnName(i + 1);
+            }
+            model.setColumnIdentifiers(colName);
+
+            // iterate over result set to see resutls
+            while (rs.next()) {
+                clientID = rs.getString(1);
+                clientName = rs.getString(2);
+                phone = rs.getString(3);
+                clientType = rs.getString(4);
+                address = rs.getString(5);
+                attorneyID = rs.getString(6);
+                String[] row = {clientID, clientName, phone, clientType, address, attorneyID};
+                model.addRow(row);
+            }
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // Get client information from attorney id
+        final String id = "root";
+        final String pw = "password";
+        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
+        attorneyID = JOptionPane.showInputDialog(null, "Enter attorney id:");
+        String query = "select c.client_id, c.client_name, c.phone, c.client_type, a.attorney_id, a.fname, a.lname\n"
+                + "from client c, attorney a\n"
+                + "where a.attorney_id = ?\n"
+                + "and a.attorney_id = c.attorney;";
+
+        try {
+            // connect to MySQL server
+            Connection con = DriverManager.getConnection(server, id, pw);
+
+            // try out a prepared statement
+            PreparedStatement stmt = con.prepareStatement(query);
+
+            // connect to the correct schema
+            stmt.executeQuery("use law_firm");
+
+            // fill in parameters 
+            stmt.setString(1, attorneyID);
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // get column count and names 
+            int cols = rsmd.getColumnCount();
+            String[] colName = new String[cols];
+
+            // iterate over array and get column info and set it in the table
+            for (int i = 0; i < cols; i++) {
+                colName[i] = rsmd.getColumnName(i + 1);
+            }
+            model.setColumnIdentifiers(colName);
+
+            // iterate over result set to see resutls
+             // iterate over result set to see resutls
+            while (rs.next()) {
+                clientID = rs.getString(1);
+                clientName = rs.getString(2);
+                phone = rs.getString(3);
+                clientType = rs.getString(4);
+                address = rs.getString(5);
+                attorneyID = rs.getString(6);
+                String[] row = {clientID, clientName, phone, clientType, address, attorneyID};
+                model.addRow(row);
+            }
+
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_jButton11ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -762,6 +1014,13 @@ public class DBGui extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
