@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Clock;
 import java.time.ZoneId;
+import javax.swing.table.*;
 
 public class DBGui extends javax.swing.JFrame {
 
@@ -73,16 +74,13 @@ public class DBGui extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
 
         jButton1.setText("Get Tables");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -98,32 +96,52 @@ public class DBGui extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
+
+        jButton3.setText("Clear Table");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addGap(20, 20, 20))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(58, 58, 58)
-                        .addComponent(jButton2)
-                        .addContainerGap(522, Short.MAX_VALUE))))
+                .addComponent(jButton1)
+                .addGap(58, 58, 58)
+                .addComponent(jButton2)
+                .addGap(87, 87, 87)
+                .addComponent(jScrollPane2)
+                .addGap(143, 143, 143))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addGap(331, 331, 331))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(42, 42, 42)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(40, 40, 40)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
-                .addGap(133, 133, 133))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(jButton2)))
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addGap(206, 206, 206))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -134,15 +152,20 @@ public class DBGui extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        jTextArea1.setText("");
+        // Get tables in database
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+
         final String id = "root";
         final String pw = "password";
         final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=roo";
@@ -152,61 +175,107 @@ public class DBGui extends javax.swing.JFrame {
             Connection con = DriverManager.getConnection(server, id, pw);
             Statement stmt = con.createStatement();
 
-            // try out a prepared statement 
+            // try out a prepared statement
             PreparedStatement getTables = con.prepareStatement("show tables");
 
-            // connect to the correct schema 
+            // connect to the correct schema
             stmt.executeQuery("use law_firm");
 
             // let's see the tables
             //ResultSet rs = stmt.executeQuery("show tables");
             ResultSet rs = getTables.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
 
-            // iterate over result set to see
-            while (rs.next()) {
-                String table = rs.getString("Tables_in_law_firm");
-                jTextArea1.append(table + "\n");
+            // create a table model 
+            // get column count and names 
+            int cols = rsmd.getColumnCount();
+            String[] colName = new String[cols];
+
+            // iterate over array and get column info and set it in the table
+            for (int i = 0; i < cols; i++) {
+                colName[i] = rsmd.getColumnName(i + 1);
             }
+            model.setColumnIdentifiers(colName);
+
+            String table;
+            // iterate over result set to see resutls
+            while (rs.next()) {
+                table = rs.getString(1);
+                String[] row = {table};
+                model.addRow(row);
+            }
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
         } catch (SQLException e) {
             System.err.println(e);
         }
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        jTextArea1.setText("");
+        // Get attorney data
         final String id = "root";
         final String pw = "password";
         final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=roo";
+        String queries;
         try {
             // connect to MySQL server
             Connection con = DriverManager.getConnection(server, id, pw);
             Statement stmt = con.createStatement();
 
-            // try out a prepared statement 
+            // try out a prepared statement
             PreparedStatement getTables = con.prepareStatement("select * from attorney");
 
-            // connect to the correct schema 
+            // connect to the correct schema
             stmt.executeQuery("use law_firm");
 
             // let's see the tables
             //ResultSet rs = stmt.executeQuery("show tables");
             ResultSet rs = getTables.executeQuery();
-            
-            jTextArea1.append("First name\tMiddile init.\tLast name\n");
+            ResultSetMetaData rsmd = rs.getMetaData();
 
-            // iterate over result set to see
-            while (rs.next()) {
-                String fname = rs.getString("fname");
-                String minit = rs.getString("minit");
-                String lname = rs.getString("lname");
-                jTextArea1.append(fname+"\t"+minit+"\t"+lname+"\n");
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // get column count and names 
+            int cols = rsmd.getColumnCount();
+            String[] colName = new String[cols];
+
+            // iterate over array and get column info and set it in the table
+            for (int i = 0; i < cols; i++) {
+                colName[i] = rsmd.getColumnName(i + 1);
             }
+            model.setColumnIdentifiers(colName);
+
+            String attorneyId, fname, minit, lname, spec, phone, address, office;
+            // iterate over result set to see resutls
+            while (rs.next()) {
+                attorneyId = rs.getString(1);
+                fname = rs.getString(2);
+                minit = rs.getString(3);
+                lname = rs.getString(4);
+                spec = rs.getString(5);
+                phone = rs.getString(6);
+                address = rs.getString(7);
+                office = rs.getString(8);
+                String[] row = {attorneyId, fname, minit, lname, spec, phone, address, office};
+                model.addRow(row);
+            }
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
         } catch (SQLException e) {
             System.err.println(e);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        jTable1.setModel(new DefaultTableModel());
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -246,8 +315,10 @@ public class DBGui extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
