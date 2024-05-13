@@ -19,6 +19,7 @@ import java.time.ZoneId;
 import javax.swing.table.*;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
 
 public class DBGui extends javax.swing.JFrame {
 
@@ -1056,7 +1057,10 @@ public class DBGui extends javax.swing.JFrame {
         JTextField f1 = new JTextField();
         JTextField f2 = new JTextField();
         JTextField f3 = new JTextField();
-        JTextField f4 = new JTextField();
+//        JTextField f4 = new JTextField();
+        JComboBox f4 = new JComboBox();
+        f4.addItem("Individual");
+        f4.addItem("Corporate");
         JTextField f5 = new JTextField();
         JTextField f6 = new JTextField();
 
@@ -1085,7 +1089,7 @@ public class DBGui extends javax.swing.JFrame {
 
             stmt.setString(1, f2.getText());
             stmt.setString(2, f3.getText());
-            stmt.setString(3, f4.getText());
+            stmt.setString(3, (String)f4.getSelectedItem());
             stmt.setString(4, f5.getText());
             stmt.setString(5, f6.getText());
             stmt.setString(6, f1.getText());
