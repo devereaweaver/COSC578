@@ -43,6 +43,7 @@ create table billing
     date_issued date, 
     payment_status enum('Draft', 'Send', 'Paid', 'Partial', 'Overdue'),
     amount decimal (13, 2), 
+    billable_hours decimal(13, 2),
     client int,  -- foreign key into client
     primary key (invoice_number)
 );
@@ -107,12 +108,12 @@ values
     ('2024-01-04'),
     ('2023-12-30');
     
-insert into billing (date_issued, payment_status, amount, client)
+insert into billing (date_issued, payment_status, amount, billable_hours, client)
 values
-	('2024-02-21', 'Draft', '30000.95', 1), 
-    ('2024-01-02', 'Paid', '50000.00', 1),
-    ('2023-01-04', 'Overdue', '1500.39', 2),
-    ('2024-04-24', 'Partial', '5312.40', 3);
+	('2024-02-21', 'Draft', '30000.95', '40', 1), 
+    ('2024-01-02', 'Paid', '50000.00', '50', 1),
+    ('2023-01-04', 'Overdue', '1500.39', '14.5', 2),
+    ('2024-04-24', 'Partial', '5312.40', '20', 3);
     
     
 insert into client_case (case_status, date_filed, case_type, court, attorney, billing, legal_document)
