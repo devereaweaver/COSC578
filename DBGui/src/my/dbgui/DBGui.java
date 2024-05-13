@@ -45,6 +45,7 @@ public class DBGui extends javax.swing.JFrame {
     public static String paymentStatus;
     public static String amount;
     public static String billableHours;
+    public static String courtName;
     public static String id = "";
     public static String pw = "";
     public static String server = "";
@@ -524,16 +525,11 @@ public class DBGui extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // Get cases for specific attorney
-
-        // Do the connection thing as usual 
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
-        // get a popup to get user input?...
         attorneyID = JOptionPane.showInputDialog(null, "Enter attorney id:");
-        String query = "select case_id, attorney, case_status, date_filed, case_type\n"
-                + "from client_case c\n"
-                + "where c.attorney = ?;";
+        String query = "select c.case_id, c.attorney, c.case_status, c.date_filed, c.case_type, t.name\n"
+                + "from client_case c, court t\n"
+                + "where c.attorney = ?\n"
+                + "and c.court = t.court_id;";
 
         try {
             // connect to MySQL server
@@ -572,7 +568,8 @@ public class DBGui extends javax.swing.JFrame {
                 case_status = rs.getString(3);
                 date_filed = rs.getString(4);
                 case_type = rs.getString(5);
-                String[] row = {case_id, attorney, case_status, date_filed, case_type};
+                courtName = rs.getString(6);
+                String[] row = {case_id, attorney, case_status, date_filed, case_type, courtName};
                 model.addRow(row);
             }
 
