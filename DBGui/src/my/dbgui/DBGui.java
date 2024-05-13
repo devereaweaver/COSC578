@@ -20,6 +20,7 @@ import javax.swing.table.*;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JPasswordField;
 
 public class DBGui extends javax.swing.JFrame {
 
@@ -44,6 +45,9 @@ public class DBGui extends javax.swing.JFrame {
     public static String paymentStatus;
     public static String amount;
     public static String billableHours;
+    public static String id = "";
+    public static String pw = "";
+    public static String server = "";
 
     /**
      * Creates new form DBGui
@@ -87,6 +91,7 @@ public class DBGui extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
+        jButton20 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -146,7 +151,7 @@ public class DBGui extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton4)
-                .addContainerGap(279, Short.MAX_VALUE))
+                .addContainerGap(339, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,7 +233,7 @@ public class DBGui extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton16))
                     .addComponent(jButton12))
-                .addGap(0, 191, Short.MAX_VALUE))
+                .addGap(0, 251, Short.MAX_VALUE))
         );
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton10, jButton11, jButton12, jButton13, jButton14, jButton15, jButton16});
@@ -263,7 +268,12 @@ public class DBGui extends javax.swing.JFrame {
             }
         });
 
-        jButton18.setText("Billable Hours");
+        jButton18.setText("Billable Hours by Attorney");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
 
         jButton19.setText("Payment Status");
         jButton19.addActionListener(new java.awt.event.ActionListener() {
@@ -373,7 +383,7 @@ public class DBGui extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton9))
                     .addComponent(jButton6))
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addContainerGap(227, Short.MAX_VALUE))
         );
 
         jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2, jButton5, jButton6, jButton7, jButton8, jButton9});
@@ -399,14 +409,25 @@ public class DBGui extends javax.swing.JFrame {
 
         jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jButton2, jButton5, jButton6, jButton7, jButton8, jButton9});
 
+        jButton20.setText("Connect");
+        jButton20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton20ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton20)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
@@ -432,6 +453,8 @@ public class DBGui extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton20)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -442,9 +465,6 @@ public class DBGui extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // Get all attorney data
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
         try {
             // connect to MySQL server
             Connection con = DriverManager.getConnection(server, id, pw);
@@ -566,11 +586,6 @@ public class DBGui extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Get attorney by id
-
-        // Do the connection thing as usual 
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
         attorneyID = JOptionPane.showInputDialog(null, "Enter attorney id:");
         String query = "select * from attorney where attorney_id = ?";
 
@@ -627,9 +642,6 @@ public class DBGui extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // Get attorney by first name
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
         String name = JOptionPane.showInputDialog(null, "Enter attorney first name:");
         String query = "select * from attorney where fname like '%" + name + "%'";
 
@@ -678,9 +690,6 @@ public class DBGui extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // Get attorney by last name
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
         String name = JOptionPane.showInputDialog(null, "Enter attorney last name:");
         String query = "select * from attorney where lname like '%" + name + "%'";
 
@@ -729,9 +738,6 @@ public class DBGui extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // Get attorney by specialization
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
         String name = JOptionPane.showInputDialog(null, "Enter attorney specialization:");
         String query = "select * from attorney where specialization like '%" + name + "%'";
 
@@ -799,9 +805,6 @@ public class DBGui extends javax.swing.JFrame {
 
         JOptionPane.showMessageDialog(null, data, "New Attorney", JOptionPane.INFORMATION_MESSAGE);
 
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
         String query = "insert into  attorney (fname, minit, lname, specialization, attorney_phone, address, office_number)\n"
                 + "values \n"
                 + "    (?,?,?,?,?,?,?)";
@@ -840,9 +843,6 @@ public class DBGui extends javax.swing.JFrame {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // Delete an attorney
         attorneyID = JOptionPane.showInputDialog(null, "Enter attorney id:");
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
         String query = "delete from attorney where attorney_id=" + attorneyID;
 
         try {
@@ -869,9 +869,6 @@ public class DBGui extends javax.swing.JFrame {
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // Get client cases
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
         clientID = JOptionPane.showInputDialog(null, "Enter client id:");
         String query = "select c.client_name, cc.case_id, cc.case_status, cc.case_type, cc.date_filed\n"
                 + "from client c, client_case cc\n"
@@ -928,9 +925,6 @@ public class DBGui extends javax.swing.JFrame {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // Get all client data
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
         try {
             // connect to MySQL server
             Connection con = DriverManager.getConnection(server, id, pw);
@@ -983,9 +977,6 @@ public class DBGui extends javax.swing.JFrame {
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // Get client by name
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
         String name = JOptionPane.showInputDialog(null, "Enter client name:");
         String query = "select * from client where client_name like '%" + name + "%'";
 
@@ -1032,9 +1023,6 @@ public class DBGui extends javax.swing.JFrame {
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // Get client information from attorney id
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
         attorneyID = JOptionPane.showInputDialog(null, "Enter attorney id:");
         String query = "select c.client_id, c.client_name, c.phone, c.client_type, a.attorney_id, a.fname, a.lname\n"
                 + "from client c, attorney a\n"
@@ -1114,9 +1102,6 @@ public class DBGui extends javax.swing.JFrame {
 
         JOptionPane.showMessageDialog(null, data, "Update Client", JOptionPane.INFORMATION_MESSAGE);
 
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
         String query = "update client \n"
                 + "set client_name = ?, phone = ?, client_type = ?, address = ?, attorney = ?\n"
                 + "where client_id = ?;";
@@ -1168,9 +1153,6 @@ public class DBGui extends javax.swing.JFrame {
 
         JOptionPane.showMessageDialog(null, data, "New Client", JOptionPane.INFORMATION_MESSAGE);
 
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
         String query = "insert into client (client_name, phone, client_type, address, attorney) \n"
                 + "values \n"
                 + "	(?, ?, ?, ?, ?);";
@@ -1205,9 +1187,6 @@ public class DBGui extends javax.swing.JFrame {
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
         // Remove a client 
         clientID = JOptionPane.showInputDialog(null, "Enter client id:");
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
         String query = "delete from client where client_id =" + clientID;
 
         try {
@@ -1234,9 +1213,6 @@ public class DBGui extends javax.swing.JFrame {
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         // Get all billing data
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
         try {
             // connect to MySQL server
             Connection con = DriverManager.getConnection(server, id, pw);
@@ -1289,10 +1265,6 @@ public class DBGui extends javax.swing.JFrame {
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         // Payment status query
-        final String id = "root";
-        final String pw = "password";
-        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
-
         JComboBox status = new JComboBox();
         status.addItem("Draft");
         status.addItem("Sent");
@@ -1300,8 +1272,8 @@ public class DBGui extends javax.swing.JFrame {
         status.addItem("Partial");
         status.addItem("Overdue");
         JOptionPane.showMessageDialog(null, status, "Select Payment Status", JOptionPane.INFORMATION_MESSAGE);
-        
-        String selectedStatus = (String)status.getSelectedItem();
+
+        String selectedStatus = (String) status.getSelectedItem();
 
         String query = "select * \n"
                 + "from billing \n"
@@ -1356,6 +1328,88 @@ public class DBGui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton19ActionPerformed
 
+    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
+        // Connect to the database by setting the static user id and password vars
+        JTextField user = new JTextField();
+        JPasswordField password = new JPasswordField();
+
+        Object[] data = {
+            "User name:", user,
+            "Password:", password,};
+
+        JOptionPane.showMessageDialog(null, data, "Connect to DB", JOptionPane.INFORMATION_MESSAGE);
+
+        // Set globals 
+        id = user.getText();
+        pw = new String(password.getPassword());
+        server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=" + id;
+
+        System.out.println("Username: " + id);
+        System.out.println("Password: " + pw);
+        System.out.println("Sever: " + server);
+
+        //"jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root"
+    }//GEN-LAST:event_jButton20ActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        // Get billable hours by attorney id
+        attorneyID = JOptionPane.showInputDialog(null, "Enter attorney id:");
+        String query = "select sum(billable_hours) as total_hours, attorney_id, fname, lname\n"
+                + "from billing, attorney\n"
+                + "where client = (\n"
+                + "select c.client_id\n"
+                + "from client c, attorney a\n"
+                + "where a.attorney_id =" + attorneyID + "\n"
+                + "and c.attorney = a.attorney_id\n"
+                + ")\n"
+                + "and attorney_id =" + attorneyID + ";";
+
+        try {
+            // connect to MySQL server
+            Connection con = DriverManager.getConnection(server, id, pw);
+
+            // try out a prepared statement
+            PreparedStatement stmt = con.prepareStatement(query);
+
+            // connect to the correct schema
+            stmt.executeQuery("use law_firm");
+
+            // fill in parameters 
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // get column count and names 
+            int cols = rsmd.getColumnCount();
+            String[] colName = new String[cols];
+
+            // iterate over array and get column info and set it in the table
+            for (int i = 0; i < cols; i++) {
+                colName[i] = rsmd.getColumnName(i + 1);
+            }
+            model.setColumnIdentifiers(colName);
+
+            // iterate over result set to see resutls
+            while (rs.next()) {
+                String totalHours = rs.getString(1);
+                attorneyID = rs.getString(2);
+                fname = rs.getString(3);
+                lname = rs.getString(4);
+                String[] row = {totalHours, attorneyID, fname, lname};
+                model.addRow(row);
+            }
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_jButton18ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1404,6 +1458,7 @@ public class DBGui extends javax.swing.JFrame {
     private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton20;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

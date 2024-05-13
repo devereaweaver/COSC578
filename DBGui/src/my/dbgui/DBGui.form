@@ -25,8 +25,14 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel2" linkSize="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="jPanel4" linkSize="1" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jPanel2" linkSize="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="jPanel4" linkSize="1" alignment="1" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButton20" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jPanel1" max="32767" attributes="0"/>
@@ -55,6 +61,8 @@
               <Component id="jPanel4" linkSize="2" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jPanel5" linkSize="2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jButton20" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -136,7 +144,7 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jButton4" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="279" max="32767" attributes="0"/>
+                  <EmptySpace pref="339" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -191,7 +199,7 @@
                       </Group>
                       <Component id="jButton12" linkSize="5" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="0" pref="191" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="251" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -333,8 +341,11 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButton18">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Billable Hours"/>
+            <Property name="text" type="java.lang.String" value="Billable Hours by Attorney"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton18ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton19">
           <Properties>
@@ -378,7 +389,7 @@
                       </Group>
                       <Component id="jButton6" linkSize="4" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="167" max="32767" attributes="0"/>
+                  <EmptySpace pref="227" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -474,5 +485,13 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="jButton20">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Connect"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton20ActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>
