@@ -52,7 +52,8 @@ create table client_case
 (
     case_id int not null auto_increment, 
     case_status enum('Pending', 'In-Progress', 'Closed'), 
-    date_filed date, 
+    date_filed date,  
+    start_date date,
     case_type enum('Dispute Resolution', 'Intellectual Property', 'Contract Dispute', 
         'Fraud'),
     court int, -- foreign key into court table
@@ -117,11 +118,11 @@ values
     ('2022-05-21', 'Overdue', '6897.45', '25', 2);
     
     
-insert into client_case (case_status, date_filed, case_type, court, attorney, billing, legal_document)
+insert into client_case (case_status, date_filed, start_date, case_type, court, attorney, billing, legal_document)
 values
-	('Pending', '2023-12-01', 'Contract Dispute', 1, 1, 1, 1),
-	('In-Progress', '2023-12-01', 'Intellectual Property', 2, 2, 2, 2),
-    ('Closed', '2024-01-01', 'Fraud', 1, 6, 4, 3);
+	('Pending', '2023-12-01', '2024-05-30', 'Contract Dispute', 1, 1, 1, 1),
+	('In-Progress', '2023-12-01', '2023-12-30', 'Intellectual Property', 2, 2, 2, 2),
+    ('Closed', '2024-01-01', '2024-01-03','Fraud', 1, 6, 4, 3);
 
 -- Add the foreign key constraints on each of the tables created
 alter table client
