@@ -39,6 +39,12 @@ public class DBGui extends javax.swing.JFrame {
     public static String caseStatus;
     public static String caseType;
     public static String dateFiled;
+    public static String invoiceNumber;
+    public static String dateIssued;
+    public static String paymentStatus;
+    public static String amount;
+    public static String billableHours;
+ 
 
     /**
      * Creates new form DBGui
@@ -71,6 +77,9 @@ public class DBGui extends javax.swing.JFrame {
         jButton15 = new javax.swing.JButton();
         jButton16 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
+        jButton17 = new javax.swing.JButton();
+        jButton18 = new javax.swing.JButton();
+        jButton19 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -138,7 +147,7 @@ public class DBGui extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton4)
-                .addContainerGap(242, Short.MAX_VALUE))
+                .addContainerGap(279, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,7 +229,7 @@ public class DBGui extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton16))
                     .addComponent(jButton12))
-                .addGap(0, 154, Short.MAX_VALUE))
+                .addGap(0, 191, Short.MAX_VALUE))
         );
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton10, jButton11, jButton12, jButton13, jButton14, jButton15, jButton16});
@@ -248,16 +257,43 @@ public class DBGui extends javax.swing.JFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Billing"));
 
+        jButton17.setText("All Billing Data");
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
+
+        jButton18.setText("Billable Hours");
+
+        jButton19.setText("Payment Status");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 402, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton17)
+                    .addComponent(jButton18)
+                    .addComponent(jButton19))
+                .addGap(0, 317, Short.MAX_VALUE))
         );
+
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton17, jButton18, jButton19});
+
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 116, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jButton17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton19)
+                .addGap(0, 35, Short.MAX_VALUE))
         );
+
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton17, jButton18, jButton19});
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Personnel"));
 
@@ -333,7 +369,7 @@ public class DBGui extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton9))
                     .addComponent(jButton6))
-                .addContainerGap(130, Short.MAX_VALUE))
+                .addContainerGap(167, Short.MAX_VALUE))
         );
 
         jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2, jButton5, jButton6, jButton7, jButton8, jButton9});
@@ -1192,6 +1228,61 @@ public class DBGui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton16ActionPerformed
 
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        // Get all billing data
+        final String id = "root";
+        final String pw = "password";
+        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
+        try {
+            // connect to MySQL server
+            Connection con = DriverManager.getConnection(server, id, pw);
+            Statement stmt = con.createStatement();
+
+            // try out a prepared statement
+            PreparedStatement getTables = con.prepareStatement("select * from billing");
+
+            // connect to the correct schema
+            stmt.executeQuery("use law_firm");
+
+            // let's see the tables
+            //ResultSet rs = stmt.executeQuery("show tables");
+            ResultSet rs = getTables.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // get column count and names 
+            int cols = rsmd.getColumnCount();
+            String[] colName = new String[cols];
+
+            // iterate over array and get column info and set it in the table
+            for (int i = 0; i < cols; i++) {
+                colName[i] = rsmd.getColumnName(i + 1);
+            }
+            model.setColumnIdentifiers(colName);
+
+            // iterate over result set to see resutls
+            while (rs.next()) {
+                invoiceNumber = rs.getString(1);
+                dateIssued = rs.getString(2);
+                paymentStatus = rs.getString(3);
+                amount = rs.getString(4);
+                billableHours = rs.getString(5);
+                clientID = rs.getString(6);
+                String[] row = {invoiceNumber, dateIssued, paymentStatus, amount, billableHours, clientID};
+                model.addRow(row);
+            }
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_jButton17ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1236,6 +1327,9 @@ public class DBGui extends javax.swing.JFrame {
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
+    private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
