@@ -45,7 +45,9 @@ public class DBGui extends javax.swing.JFrame {
     public static String paymentStatus;
     public static String amount;
     public static String billableHours;
+    public static String court;
     public static String courtName;
+    public static String legalDocument;
     public static String id = "";
     public static String pw = "";
     public static String server = "";
@@ -72,6 +74,7 @@ public class DBGui extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
+        jButton21 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jButton10 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
@@ -145,21 +148,37 @@ public class DBGui extends javax.swing.JFrame {
             }
         });
 
+        jButton21.setText("Cases by Status");
+        jButton21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton21ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton4)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton4)
+                    .addComponent(jButton21))
                 .addContainerGap(339, Short.MAX_VALUE))
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton21, jButton4});
+
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jButton4)
-                .addGap(0, 93, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton21)
+                .addGap(0, 64, Short.MAX_VALUE))
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton21, jButton4});
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Client Information"));
 
@@ -1407,6 +1426,72 @@ public class DBGui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton18ActionPerformed
 
+    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
+        // Get all cases by status category
+        // Payment status query
+        JComboBox status = new JComboBox();
+        status.addItem("Pending");
+        status.addItem("In-Progress");
+        status.addItem("Closed");
+        JOptionPane.showMessageDialog(null, status, "Select Case Status", JOptionPane.INFORMATION_MESSAGE);
+
+        String selectedStatus = (String) status.getSelectedItem();
+
+        String query = "select * from client_case \n"
+                + "where case_status = '" + selectedStatus + "';\n";
+
+        try {
+            // connect to MySQL server
+            Connection con = DriverManager.getConnection(server, id, pw);
+            Statement stmt = con.createStatement();
+
+            // try out a prepared statement
+            PreparedStatement getTables = con.prepareStatement(query);
+
+            // connect to the correct schema
+            stmt.executeQuery("use law_firm");
+
+            // let's see the tables
+            //ResultSet rs = stmt.executeQuery("show tables");
+            ResultSet rs = getTables.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // get column count and names 
+            int cols = rsmd.getColumnCount();
+            String[] colName = new String[cols];
+
+            // iterate over array and get column info and set it in the table
+            for (int i = 0; i < cols; i++) {
+                colName[i] = rsmd.getColumnName(i + 1);
+            }
+            model.setColumnIdentifiers(colName);
+
+            // iterate over result set to see resutls
+            while (rs.next()) {
+                caseID = rs.getString(1);
+                caseStatus = rs.getString(2);
+                dateFiled = rs.getString(3);
+                caseType = rs.getString(4);
+                court = rs.getString(5);
+                attorneyID = rs.getString(6);
+                invoiceNumber = rs.getString(7);
+                legalDocument = rs.getString(8);
+                String[] row = {caseID, caseStatus, dateFiled, caseType, court, attorneyID, invoiceNumber, legalDocument};
+                model.addRow(row);
+            }
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_jButton21ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1456,6 +1541,7 @@ public class DBGui extends javax.swing.JFrame {
     private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton20;
+    private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
