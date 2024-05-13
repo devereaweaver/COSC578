@@ -41,7 +41,7 @@ create table billing
 (
     invoice_number int not null auto_increment,
     date_issued date, 
-    payment_status enum('Draft', 'Send', 'Paid', 'Partial', 'Overdue'),
+    payment_status enum('Draft', 'Sent', 'Paid', 'Partial', 'Overdue'),
     amount decimal (13, 2), 
     billable_hours decimal(13, 2),
     client int,  -- foreign key into client

@@ -44,7 +44,6 @@ public class DBGui extends javax.swing.JFrame {
     public static String paymentStatus;
     public static String amount;
     public static String billableHours;
- 
 
     /**
      * Creates new form DBGui
@@ -267,6 +266,11 @@ public class DBGui extends javax.swing.JFrame {
         jButton18.setText("Billable Hours");
 
         jButton19.setText("Payment Status");
+        jButton19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton19ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -1125,7 +1129,7 @@ public class DBGui extends javax.swing.JFrame {
 
             stmt.setString(1, f2.getText());
             stmt.setString(2, f3.getText());
-            stmt.setString(3, (String)f4.getSelectedItem());
+            stmt.setString(3, (String) f4.getSelectedItem());
             stmt.setString(4, f5.getText());
             stmt.setString(5, f6.getText());
             stmt.setString(6, f1.getText());
@@ -1282,6 +1286,75 @@ public class DBGui extends javax.swing.JFrame {
             System.err.println(e);
         }
     }//GEN-LAST:event_jButton17ActionPerformed
+
+    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
+        // Payment status query
+        final String id = "root";
+        final String pw = "password";
+        final String server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=root";
+
+        JComboBox status = new JComboBox();
+        status.addItem("Draft");
+        status.addItem("Sent");
+        status.addItem("Paid");
+        status.addItem("Partial");
+        status.addItem("Overdue");
+        JOptionPane.showMessageDialog(null, status, "Select Payment Status", JOptionPane.INFORMATION_MESSAGE);
+        
+        String selectedStatus = (String)status.getSelectedItem();
+
+        String query = "select * \n"
+                + "from billing \n"
+                + "where payment_status = '" + selectedStatus + "';";
+        try {
+            // connect to MySQL server
+            Connection con = DriverManager.getConnection(server, id, pw);
+            Statement stmt = con.createStatement();
+
+            // try out a prepared statement
+            PreparedStatement getTables = con.prepareStatement(query);
+
+            // connect to the correct schema
+            stmt.executeQuery("use law_firm");
+
+            // let's see the tables
+            //ResultSet rs = stmt.executeQuery("show tables");
+            ResultSet rs = getTables.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            // create a table model 
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // get column count and names 
+            int cols = rsmd.getColumnCount();
+            String[] colName = new String[cols];
+
+            // iterate over array and get column info and set it in the table
+            for (int i = 0; i < cols; i++) {
+                colName[i] = rsmd.getColumnName(i + 1);
+            }
+            model.setColumnIdentifiers(colName);
+
+            // iterate over result set to see resutls
+            while (rs.next()) {
+                invoiceNumber = rs.getString(1);
+                dateIssued = rs.getString(2);
+                paymentStatus = rs.getString(3);
+                amount = rs.getString(4);
+                billableHours = rs.getString(5);
+                clientID = rs.getString(6);
+                String[] row = {invoiceNumber, dateIssued, paymentStatus, amount, billableHours, clientID};
+                model.addRow(row);
+            }
+
+            // close statement and connection 
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_jButton19ActionPerformed
 
     /**
      * @param args the command line arguments
