@@ -8,7 +8,6 @@ package my.dbgui;
  *
  * @author devere
  */
-
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -436,7 +435,7 @@ public class DBGui extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -448,10 +447,10 @@ public class DBGui extends javax.swing.JFrame {
                     .addComponent(jButton9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton6)
-                .addGap(0, 33, Short.MAX_VALUE))
+                .addGap(33, 33, 33))
         );
 
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jButton2, jButton5, jButton6, jButton7, jButton8, jButton9});
+        jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, jButton5, jButton6, jButton7, jButton8, jButton9});
 
         jButton20.setText("Connect");
         jButton20.addActionListener(new java.awt.event.ActionListener() {
@@ -496,26 +495,24 @@ public class DBGui extends javax.swing.JFrame {
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton20)
-                    .addComponent(jButton22))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton20)
+                            .addComponent(jButton22))))
+                .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jPanel2, jPanel3, jPanel4, jPanel5});
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton20, jButton22});
 
@@ -533,7 +530,8 @@ public class DBGui extends javax.swing.JFrame {
             PreparedStatement getTables = con.prepareStatement("select * from attorney");
 
             // connect to the correct schema
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
 
             // let's see the tables
             //ResultSet rs = stmt.executeQuery("show tables");
@@ -573,6 +571,7 @@ public class DBGui extends javax.swing.JFrame {
             con.close();
         } catch (SQLException e) {
             System.err.println(e);
+//            JOptionPane.showMessageDialog(null, "ERROR: Not connected to database");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -597,7 +596,8 @@ public class DBGui extends javax.swing.JFrame {
             PreparedStatement stmt = con.prepareStatement(query);
 
             // connect to the correct schema
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
 
             // fill in parameters 
             stmt.setString(1, attorneyID);
@@ -652,8 +652,8 @@ public class DBGui extends javax.swing.JFrame {
             PreparedStatement stmt = con.prepareStatement(query);
 
             // connect to the correct schema
-            stmt.executeQuery("use law_firm");
-
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
             // fill in parameters 
             stmt.setString(1, attorneyID);
             ResultSet rs = stmt.executeQuery();
@@ -703,7 +703,8 @@ public class DBGui extends javax.swing.JFrame {
         try {
             Connection con = DriverManager.getConnection(server, id, pw);
             PreparedStatement stmt = con.prepareStatement(query);
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
             ResultSet rs = stmt.executeQuery();
             ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -751,7 +752,8 @@ public class DBGui extends javax.swing.JFrame {
         try {
             Connection con = DriverManager.getConnection(server, id, pw);
             PreparedStatement stmt = con.prepareStatement(query);
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
             ResultSet rs = stmt.executeQuery();
             ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -799,7 +801,8 @@ public class DBGui extends javax.swing.JFrame {
         try {
             Connection con = DriverManager.getConnection(server, id, pw);
             PreparedStatement stmt = con.prepareStatement(query);
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
             ResultSet rs = stmt.executeQuery();
             ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -867,7 +870,8 @@ public class DBGui extends javax.swing.JFrame {
         try {
             Connection con = DriverManager.getConnection(server, id, pw);
             PreparedStatement stmt = con.prepareStatement(query);
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
 
             // fill in parameters 
             // fill in those values
@@ -903,7 +907,8 @@ public class DBGui extends javax.swing.JFrame {
         try {
             Connection con = DriverManager.getConnection(server, id, pw);
             PreparedStatement stmt = con.prepareStatement(query);
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
 
             // create a table model 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -938,7 +943,8 @@ public class DBGui extends javax.swing.JFrame {
             PreparedStatement stmt = con.prepareStatement(query);
 
             // connect to the correct schema
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
 
             // fill in parameters 
             stmt.setString(1, clientID);
@@ -989,7 +995,8 @@ public class DBGui extends javax.swing.JFrame {
             PreparedStatement getTables = con.prepareStatement("select * from client");
 
             // connect to the correct schema
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
 
             // let's see the tables
             //ResultSet rs = stmt.executeQuery("show tables");
@@ -1038,7 +1045,8 @@ public class DBGui extends javax.swing.JFrame {
         try {
             Connection con = DriverManager.getConnection(server, id, pw);
             PreparedStatement stmt = con.prepareStatement(query);
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
             ResultSet rs = stmt.executeQuery();
             ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -1092,7 +1100,8 @@ public class DBGui extends javax.swing.JFrame {
             PreparedStatement stmt = con.prepareStatement(query);
 
             // connect to the correct schema
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
 
             // fill in parameters 
             stmt.setString(1, attorneyID);
@@ -1164,7 +1173,8 @@ public class DBGui extends javax.swing.JFrame {
         try {
             Connection con = DriverManager.getConnection(server, id, pw);
             PreparedStatement stmt = con.prepareStatement(query);
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
             stmt.executeQuery("set sql_safe_updates = 0");
 
             stmt.setString(1, f2.getText());
@@ -1214,7 +1224,8 @@ public class DBGui extends javax.swing.JFrame {
         try {
             Connection con = DriverManager.getConnection(server, id, pw);
             PreparedStatement stmt = con.prepareStatement(query);
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
 
             stmt.setString(1, f1.getText());
             stmt.setString(2, f2.getText());
@@ -1246,7 +1257,8 @@ public class DBGui extends javax.swing.JFrame {
         try {
             Connection con = DriverManager.getConnection(server, id, pw);
             PreparedStatement stmt = con.prepareStatement(query);
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
 
             // create a table model 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -1276,7 +1288,8 @@ public class DBGui extends javax.swing.JFrame {
             PreparedStatement getTables = con.prepareStatement("select * from billing");
 
             // connect to the correct schema
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
 
             // let's see the tables
             //ResultSet rs = stmt.executeQuery("show tables");
@@ -1341,7 +1354,8 @@ public class DBGui extends javax.swing.JFrame {
             PreparedStatement getTables = con.prepareStatement(query);
 
             // connect to the correct schema
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
 
             // let's see the tables
             //ResultSet rs = stmt.executeQuery("show tables");
@@ -1383,7 +1397,7 @@ public class DBGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
-        // Connect to the database by setting the static user id and password vars
+        // Connect to the database by setting the static user id and password vars     
         JTextField user = new JTextField();
         JPasswordField password = new JPasswordField();
 
@@ -1396,7 +1410,8 @@ public class DBGui extends javax.swing.JFrame {
         // Set globals 
         id = user.getText();
         pw = new String(password.getPassword());
-        server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=" + id;
+        //server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=" + id;
+        server = "jdbc:mysql://triton.towson.edu:3360/?serverTimezone=EST#/dweave8db";
 
         System.out.println("Username: " + id);
         System.out.println("Password: " + pw);
@@ -1426,7 +1441,8 @@ public class DBGui extends javax.swing.JFrame {
             PreparedStatement stmt = con.prepareStatement(query);
 
             // connect to the correct schema
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
 
             // fill in parameters 
             ResultSet rs = stmt.executeQuery();
@@ -1486,7 +1502,8 @@ public class DBGui extends javax.swing.JFrame {
             PreparedStatement getTables = con.prepareStatement(query);
 
             // connect to the correct schema
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
 
             // let's see the tables
             //ResultSet rs = stmt.executeQuery("show tables");
@@ -1548,8 +1565,8 @@ public class DBGui extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, data, "Update Client", JOptionPane.INFORMATION_MESSAGE);
 
         String query = "select * from client_case \n"
-                + "where start_date " + (String)operator.getSelectedItem() + "=" + "'" + start.getText() + "';";
-        
+                + "where start_date " + (String) operator.getSelectedItem() + "=" + "'" + start.getText() + "';";
+
         try {
             // connect to MySQL server
             Connection con = DriverManager.getConnection(server, id, pw);
@@ -1558,8 +1575,9 @@ public class DBGui extends javax.swing.JFrame {
             PreparedStatement stmt = con.prepareStatement(query);
 
             // connect to the correct schema
-            stmt.executeQuery("use law_firm");
-            
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
+
             // Set parameters 
             ResultSet rs = stmt.executeQuery();
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -1613,7 +1631,8 @@ public class DBGui extends javax.swing.JFrame {
             PreparedStatement getTables = con.prepareStatement("select * from client_case");
 
             // connect to the correct schema
-            stmt.executeQuery("use law_firm");
+//            stmt.executeQuery("use law_firm");
+            stmt.executeQuery("use dweave8db");
 
             // let's see the tables
             //ResultSet rs = stmt.executeQuery("show tables");
