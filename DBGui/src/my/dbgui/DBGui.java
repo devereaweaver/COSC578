@@ -1400,18 +1400,29 @@ public class DBGui extends javax.swing.JFrame {
         // Connect to the database by setting the static user id and password vars     
         JTextField user = new JTextField();
         JPasswordField password = new JPasswordField();
+        JComboBox serverChoice = new JComboBox();
+        serverChoice.addItem("Towson Triton");
+        serverChoice.addItem("Localhost");
 
         Object[] data = {
             "User name:", user,
-            "Password:", password,};
+            "Password:", password,
+            "Server:", serverChoice};
 
         JOptionPane.showMessageDialog(null, data, "Connect to DB", JOptionPane.INFORMATION_MESSAGE);
+
+        String server1 = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=" + id;
+        String server2 = "jdbc:mysql://triton.towson.edu:3360/?serverTimezone=EST#/dweave8db";
 
         // Set globals 
         id = user.getText();
         pw = new String(password.getPassword());
-        //server = "jdbc:mysql://localhost:3306/?serverTimezone=EST#/?user=" + id;
-        server = "jdbc:mysql://triton.towson.edu:3360/?serverTimezone=EST#/dweave8db";
+        String choice = (String) serverChoice.getSelectedItem();
+        if (choice.equals("Towson Triton")) {
+            server = server2;
+        } else {
+            server = server1;
+        }
 
         System.out.println("Username: " + id);
         System.out.println("Password: " + pw);
